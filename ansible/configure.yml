@@ -1,0 +1,22 @@
+---
+- hosts: aws_ec2
+  become: true
+  tasks:
+    - name: Update apt package cache
+      apt:
+        update_cache: yes
+
+    - name: Install ping
+      apt:
+        name: iputils-ping
+        state: present
+        
+    - name: Ping other EC2 instances in round-robin fashion
+      command: "ping -c 1 {{ hostvars[item].ansible_host }}"
+      register: ping_result
+      with_items: "{{ groups['aws_ec2'] | difference([inventory_hostname]) }}"
+
+    - name: Save ping results to a file
+      copy:
+        content: "{{ ping_result.results | to_json }}"
+        dest: "/tmp/ping_results.json"

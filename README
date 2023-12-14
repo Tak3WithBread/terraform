@@ -1,0 +1,29 @@
+# Terraform AWS Infrastructure
+
+This Terraform code deploys VMs in AWS and run an ansible-playbook everytime a new aws_instance is added
+
+## Variables
+
+- "vm_count": Number of VMs to create
+- "vm_flavor": VM flavor
+- "vm_image": VM image
+- "vpc_cidr": VPC CIDR block
+- "subnet_cidr" : Subnet CIDR block
+
+## Usage
+
+1. Clone this repository
+2. Create a "terraform.tfvars" file based on "variables.tfvars"
+3. Run "terraform init", "terraform plan", and "terraform apply"
+
+## Example `terraform.tfvars`
+
+vm_count    = 3
+vm_flavor   = "t2.micro"
+vm_image    = "ami-0fc5d935ebf8bc3bc"
+vpc_cidr    = "172.31.0.0/24"
+subnet_cidr = "172.31.0.0/24"
+
+
+Ensure that you have AWS CLI configured with appropriate access credentials and that your AWS CLI session is authenticated.
+You can do this by running aws configure and providing your AWS access key, secret key, region, and preferred output format.
